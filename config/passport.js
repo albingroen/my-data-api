@@ -11,6 +11,13 @@ const { Strategy: OpenIDStrategy } = require('passport-openid');
 const { OAuthStrategy } = require('passport-oauth');
 const { OAuth2Strategy } = require('passport-oauth');
 
+const {google} = require('googleapis');
+
+async function testGmail(gmail) {
+  const res = await gmail.users.messages.list({userId: 'me'});
+  console.log(res.data);
+}
+
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
@@ -69,6 +76,24 @@ passport.use(new GoogleStrategy({
 },
 (req, accessToken, refreshToken, profile, done) => {
   console.log('test', profile);
+  console.log(accessToken);
+
+
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_ID,
+    process.env.GOOGLE_SECRET,
+    '/auth/google/callback'
+  );
+  oauth2Client.setCredentials({
+    refresh_token: accessToken
+  });
+
+  const gmail = google.gmail({
+    version: 'v1',
+    auth: oauth2Client,
+  });
+  testGmail(gmail);
+
   if (req.user) {
     User.findOne({ google: profile.id }, (err, existingUser) => {
       if (err) {
