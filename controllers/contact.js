@@ -5,12 +5,11 @@ const nodemailer = require('nodemailer');
  * Contact form page.
  */
 exports.getContact = (req, res) => {
-  const unknownUser = !(req.user);
-
-  res.render('contact', {
-    title: 'Contact',
-    unknownUser,
-  });
+  const unknownUser = !req.user;
+  if (!req.user) {
+    res.send('no user');
+  }
+  res.send('hej');
 };
 
 /**
@@ -45,17 +44,18 @@ exports.postContact = (req, res) => {
     service: 'SendGrid',
     auth: {
       user: process.env.SENDGRID_USER,
-      pass: process.env.SENDGRID_PASSWORD
-    }
+      pass: process.env.SENDGRID_PASSWORD,
+    },
   });
   const mailOptions = {
     to: 'your@email.com',
     from: `${fromName} <${fromEmail}>`,
     subject: 'Contact Form | Hackathon Starter',
-    text: req.body.message
+    text: req.body.message,
   };
 
-  return transporter.sendMail(mailOptions)
+  return transporter
+    .sendMail(mailOptions)
     .then(() => {
       req.flash('success', { msg: 'Email has been sent successfully!' });
       res.redirect('/contact');
@@ -67,16 +67,19 @@ exports.postContact = (req, res) => {
           service: 'SendGrid',
           auth: {
             user: process.env.SENDGRID_USER,
-            pass: process.env.SENDGRID_PASSWORD
+            pass: process.env.SENDGRID_PASSWORD,
           },
           tls: {
-            rejectUnauthorized: false
-          }
+            rejectUnauthorized: false,
+          },
         });
         return transporter.sendMail(mailOptions);
       }
-      console.log('ERROR: Could not send contact email after security downgrade.\n', err);
-      req.flash('errors', { msg: 'Error sending the message. Please try again shortly.' });
+      console.log('ERROR: Could not send contact email after security downgrade.\n',
+        err);
+      req.flash('errors', {
+        msg: 'Error sending the message. Please try again shortly.',
+      });
       return false;
     })
     .then((result) => {
@@ -87,7 +90,9 @@ exports.postContact = (req, res) => {
     })
     .catch((err) => {
       console.log('ERROR: Could not send contact email.\n', err);
-      req.flash('errors', { msg: 'Error sending the message. Please try again shortly.' });
+      req.flash('errors', {
+        msg: 'Error sending the message. Please try again shortly.',
+      });
       return res.redirect('/contact');
     });
 };
