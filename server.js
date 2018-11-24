@@ -15,10 +15,7 @@ async function getClient(code) {
 	);
 
 	// generate a url that asks permissions for Google+ and Google Calendar scopes
-	const scopes = [
-		"https://www.googleapis.com/auth/plus.me",
-		"https://www.googleapis.com/auth/calendar",
-	];
+	const scopes = ["https://www.googleapis.com/auth/gmail.readonly"];
 
 	const url = oauth2Client.generateAuthUrl({
 		// 'online' (default) or 'offline' (gets refresh_token)
@@ -27,7 +24,7 @@ async function getClient(code) {
 		// If you only need one scope you can pass it as a string
 		scope: scopes,
 	});
-
+	console.log("url", url);
 	// Create google client?
 
 	const { tokens } = await oauth2Client.getToken(code);
