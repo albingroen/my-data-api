@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 var cors = require("cors");
 
+const PORT = process.env.PORT || 3000
+
 // Connect to MongoDB
 var jsonParser = require("body-parser").json;
 
@@ -74,7 +76,7 @@ var myLogger = async function(req, res, next) {
 app.use(myLogger);
 app.use("/v1", router);
 
-const server = app.listen(3000, () => {
+const server = app.listen(PORT, () => {
 	const { address, port } = server.address();
 	console.log(`Listening at http://${address}:${port}`);
 });
