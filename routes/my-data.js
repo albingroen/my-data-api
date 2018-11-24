@@ -19,4 +19,8 @@ router.post("/", async function(req, res) {
 	console.log(result);
 	res.send(result);
 });
+
+router.get("/ping", async function(req, res) {
+	res.send('pong');
+})
 module.exports = router;
