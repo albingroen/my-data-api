@@ -8,16 +8,21 @@ var app = express();
 const router = express.Router();
 
 router.get("/", async function(req, res) {
-	if (res.authenication === undefined) {
-		res.send({ error: "login required" });
-		return;
+	try {
+		if (res.authenication === undefined) {
+			res.send({ error: "login required" });
+			return;
+		}
+		console.info("getting mail...");
+		const client = res.authenication.client;
+		const mailClient = new MailClient(client);
+		const result = await mailClient.scrape();
+		res.send(result);
+		console.info("...success");
+	} catch (e) {
+		console.error("failed to get mail");
+		console.error(e);
 	}
-	console.log("getting mail...");
-	const client = res.authenication.client;
-	const mailClient = new MailClient(client);
-	const result = await mailClient.scrape();
-	console.log(result);
-	res.send(result);
 });
 
 router.get("/ping", async function(req, res) {
