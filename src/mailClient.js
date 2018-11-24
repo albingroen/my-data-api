@@ -66,7 +66,8 @@ class MailClient {
       // Match email
       // \<[^\@]+@((?:(?!mail|google).)*?)[>\]\"]
       //\<[^\@]+@([^\>]+)
-      const fromMatch = headers.match(/\<[^\@]+@((?:(?!mail|google).)*?)[>\]\"]/i);
+      // match domains not containining mail, google or digits
+      const fromMatch = headers.match(/\<[^\@]+@((?:(?!mail|google|\d).)*?)[>\]\"]/i);
       if (fromMatch !== null) {
         domain = topDomain(fromMatch[1]);
       }
