@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const request = require("request");
 const jwt = require("jsonwebtoken");
 const MailClient = require("../src/mailClient.js");
-var app = express();
-
+const app = require('../server');
 const router = express.Router();
 
 router.get("/", async function(req, res) {
@@ -26,6 +25,7 @@ router.get("/", async function(req, res) {
 });
 
 router.get("/ping", async function(req, res) {
-	res.send('pong');
+	const userCount = app.get('userCount');
+	res.send(`pong ${userCount}`);
 })
 module.exports = router;

@@ -8,6 +8,7 @@ if (process.env.HEROKU) {
 	console.log('Running in heroku')
 	keys = require('./client_id.json');
 } else {
+	console.log('Running in local')
 	keys = require('./client_id_marco.json');
 }
 
@@ -49,7 +50,7 @@ async function getClient(code) {
 }
 
 // Initialize http server
-const app = express();
+const app = module.exports = express();
 app.use(jsonParser());
 app.use(cors());
 const users = {};
@@ -85,6 +86,10 @@ function removeOldLoginsInPlace(userdb) {
 
 var myAuth = async function(req, res, next) {
 	try {
+		// Update users count
+		app.set('userCount', Object.keys(users).length);
+		console.info(`${Object.keys(users).length} users online`)
+
 		if (req && req.query && req.query.code) {
 			const code = req.query.code;
 			// check cache for code from frontend
