@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const request = require("request");
 const jwt = require("jsonwebtoken");
-const MailClient = require("../mailClient.js");
+const MailClient = require("../src/mailClient.js");
 var app = express();
 
 const router = express.Router();

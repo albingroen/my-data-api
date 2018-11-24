@@ -31,6 +31,7 @@ class MailClient {
         q: filter,
       });
       const messages = res.data.messages;
+      console.info(`found ${messages.length} mails`);
       return messages;
     } catch (e) {
       console.error(e);
