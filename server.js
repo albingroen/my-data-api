@@ -67,6 +67,7 @@ var myLogger = async function(req, res, next) {
 				client: await getClient(code),
 				loginTime: Date.now(),
 			};
+			res.authenication = users[code];
 		}
 	}
 
