@@ -60,7 +60,9 @@ class MailClient {
     let timestamp = 0;
     try {
       // Match email
-      const fromMatch = headers.match(/\<[^\@]+@([^\>]+)/i);
+      // \<[^\@]+@((?:(?!mail|google).)*?)[>\]\"]
+      //\<[^\@]+@([^\>]+)
+      const fromMatch = headers.match(/\<[^\@]+@((?:(?!mail|google).)*?)[>\]\"]/i);
       if (fromMatch !== null) {
         domain = fromMatch[1];
       }
@@ -84,7 +86,9 @@ class MailClient {
     const websitesSorted = websites.sort((a, b) => {
       return a.timestamp - b.timestamp;
     });
-    const results = removeDuplicates(websitesSorted, 'domain');
+    const websitesSortedClean = websitesSorted.filter(w => w.domain !== 'undefined');
+    console.info(`could not parse ${websitesSorted.length - websitesSortedClean.length} sites`)
+    const results = removeDuplicates(websitesSortedClean, 'domain');
     console.info(`removed ${websitesSorted.length - results.length} duplicates`)
 
     return results;
