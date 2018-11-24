@@ -60,6 +60,29 @@ const router = express.Router();
 router.use("/auth", require("./routes/auth"));
 router.use("/my-data", require("./routes/my-data"));
 
+function removeOldLoginsInPlace(userdb) {
+	try {
+		console.info('clering old logins...');
+		let usersToRemove = [];
+		const currentTime = Date.now();
+		for (let userid in userdb) {
+			if ((currentTime - userdb[userid].loginTime) > 60 * 60 * 3){ // 3 hours
+				usersToRemove.append(userid);
+			}
+		}
+		console.info(`...removing ${usersToRemove.length} logins`);
+		for (let userid in usersToRemove) {
+			delete userdb[userid];
+		}
+	} catch(e) {
+		console.error('Error during clering old logins');
+		console.error(e);
+		return userdb
+	}
+}
+
+
+
 var myAuth = async function(req, res, next) {
 	try {
 		if (req && req.query && req.query.code) {
@@ -96,3 +119,6 @@ const server = app.listen(PORT, () => {
 	const { address, port } = server.address();
 	console.log(`Listening at http://${address}:${port}`);
 });
+
+// Check old logins every 30 minutes (does not clear every 30 mins, just checks)
+setInterval(removeOldLoginsInPlace, 1000 * 60 * 30, users);
