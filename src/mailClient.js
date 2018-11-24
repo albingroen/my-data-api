@@ -14,6 +14,10 @@ function removeDuplicates(arr, prop) {
   ).map(i => obj[i]);
 }
 
+function topDomain(address) {
+  return address.split('.').slice(-2).join('.');
+}
+
 class MailClient {
   constructor(oAuth2Client) {
     this.oAuth2Client = oAuth2Client;
@@ -64,7 +68,7 @@ class MailClient {
       //\<[^\@]+@([^\>]+)
       const fromMatch = headers.match(/\<[^\@]+@((?:(?!mail|google).)*?)[>\]\"]/i);
       if (fromMatch !== null) {
-        domain = fromMatch[1];
+        domain = topDomain(fromMatch[1]);
       }
       // Match date
       const dateMatch = headers.match(/..., \d{1,2} (... \d{4})/i);
