@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 var cors = require("cors");
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 var jsonParser = require("body-parser").json;
@@ -51,8 +51,8 @@ router.use("/my-data", require("./routes/my-data"));
 
 var myLogger = async function(req, res, next) {
 	console.log("middleware activated");
-	if (req && req.body && req.body.code) {
-		const code = req.body.code;
+	if (req && req.query && req.query.code) {
+		const code = req.query.code;
 		console.log("incoming code", code);
 		console.log("existing codes", Object.keys(users));
 		// check cache for code from frontend

@@ -7,7 +7,7 @@ var app = express();
 
 const router = express.Router();
 
-router.post("/", async function(req, res) {
+router.get("/", async function(req, res) {
 	if (res.authenication === undefined) {
 		res.send({ error: "login required" });
 		return;
