@@ -8,7 +8,5 @@ var app = express();
 
 const router = express.Router();
 
-router.get("/", function(req, res) {
-	console.log("Hejsad");
-});
+router.get("/", function(req, res) {});
 module.exports = router;
