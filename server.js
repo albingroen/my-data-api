@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 var cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
+const keys = require('./client_id_marco.json');
 
 // Connect to MongoDB
 var jsonParser = require("body-parser").json;
@@ -11,9 +12,9 @@ async function getClient(code) {
 	const { google } = require("googleapis");
 
 	const oauth2Client = new google.auth.OAuth2(
-		"120720206824-cibobt957sd9rtmlu4l71toorl15ngap.apps.googleusercontent.com",
-		"zQdH6u-ZYLmcAYqn4x2S3HsG",
-		"http://localhost:8080/auth/google/callback"
+		keys.web.client_id,
+		keys.web.client_secret,
+		keys.web.redirect_uris[0]
 	);
 
 	// generate a url that asks permissions for Google+ and Google Calendar scopes
