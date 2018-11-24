@@ -3,12 +3,7 @@ const mongoose = require("mongoose");
 var cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
-if (process.env.HEROKU) {
-	console.log('Running in heroku')
-	const keys = require('./client_id_marco.json');
-}else{
-	const keys = require('./client_id.json');
-}
+const keys = require('./client_id_marco.json');
 
 // Connect to MongoDB
 var jsonParser = require("body-parser").json;
