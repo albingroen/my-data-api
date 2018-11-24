@@ -60,7 +60,7 @@ const router = express.Router();
 router.use("/auth", require("./routes/auth"));
 router.use("/my-data", require("./routes/my-data"));
 
-var myLogger = async function(req, res, next) {
+var myAuth = async function(req, res, next) {
 	try {
 		if (req && req.query && req.query.code) {
 			const code = req.query.code;
@@ -89,7 +89,7 @@ var myLogger = async function(req, res, next) {
 		}
 	}
 };
-app.use(myLogger);
+app.use(myAuth);
 app.use("/v1", router);
 
 const server = app.listen(PORT, () => {
