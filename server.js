@@ -48,18 +48,26 @@ const router = express.Router();
 // Logger that outputs all requests into the console
 // Use v1 as prefix for all API endpoints
 router.use("/auth", require("./routes/auth"));
+router.use("/my-data", require("./routes/my-data"));
 
 var myLogger = async function(req, res, next) {
-	const code = req.body.code;
-	// check cache for code from frontend
-	// if users contains code
-	if (code in users) {
-		res.authenication = users[code];
-	} else {
-		users[code] = {
-			client: await getClient(code),
-			loginTime: Date.now(),
-		};
+	console.log("middleware activated");
+	if (req && req.body && req.body.code) {
+		const code = req.body.code;
+		console.log("incoming code", code);
+		console.log("existing codes", Object.keys(users));
+		// check cache for code from frontend
+		// if users contains code
+
+		if (Object.keys(users).includes(code)) {
+			res.authenication = users[code];
+			console.log("res auth logged");
+		} else {
+			users[code] = {
+				client: await getClient(code),
+				loginTime: Date.now(),
+			};
+		}
 	}
 
 	console.log("users", Object.keys(users));
