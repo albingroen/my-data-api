@@ -85,6 +85,7 @@ class MailClient {
       return a.timestamp - b.timestamp;
     });
     const results = removeDuplicates(websitesSorted, 'domain');
+    console.info(`removed ${websitesSorted.length - results.length} duplicates`)
 
     return results;
   }
