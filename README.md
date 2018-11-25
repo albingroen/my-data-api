@@ -35,4 +35,4 @@ We believe that there needs to be a global way of doing this. You shouldn't have
 
 - [Albin Groen](https://www.github.com/albingroen)
 - [Marco Huttunen](https://www.github.com/huttunenmarco)
-- [Pietu Roisko](https://www.github.com/gamgi)
+- [gamgi](https://www.github.com/gamgi)
