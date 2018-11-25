@@ -2,6 +2,8 @@
 
 > Take control of your data.
 
+48 hour hackathon project for [Junction 2018 hackathon](https://2018.hackjunction.com/challenges/mastering-my-data).
+
 ## Installation
 
 Start by cloning the project and entering it
