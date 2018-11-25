@@ -68,7 +68,7 @@ function removeOldLoginsInPlace(userdb) {
 		const currentTime = Date.now();
 		for (let userid in userdb) {
 			if ((currentTime - userdb[userid].loginTime) > 60 * 60 * 3){ // 3 hours
-				usersToRemove.append(userid);
+				usersToRemove.push(userid);
 			}
 		}
 		console.info(`...removing ${usersToRemove.length} logins`);
